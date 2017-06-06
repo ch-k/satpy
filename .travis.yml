@@ -15,7 +15,8 @@ install:
 - pip install pyorbital
 - pip install behave
 - pip install h5netcdf
-- "pip install --no-binary :all: netCDF4"
+- pip install git+https://github.com/Unidata/netcdf4-python.git@issue666
+#- "pip install --no-binary :all: netCDF4"
 addons:
   apt_packages:
     - libhdf5-serial-dev
