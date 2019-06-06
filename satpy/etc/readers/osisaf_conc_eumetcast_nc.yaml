@@ -1,0 +1,16 @@
+reader:
+  description: OSISAF ice concentration EUMETCast netCDF reader
+  name: osisaf_conc_eumetcast_nc
+  reader: !!python/name:satpy.readers.yaml_reader.FileYAMLReader ''
+  sensors: []
+
+datasets:
+  
+  ice_conc:
+    name: ice_conc
+    file_type: osisaf_conc_eumetcast_nc_filetype
+
+file_types:
+  osisaf_conc_eumetcast_nc_filetype:
+    file_reader: !!python/name:satpy.readers.osisaf_conc_eumetcast_nc.OSISAF_CONC_EUMETCAST_NC ''
+    file_patterns: ['S-OSI_-DMI_-MULT-GL_{satid:2s}_CONCn__-{start_time:%Y%m%d%H00}Z.nc']
