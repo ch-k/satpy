@@ -511,7 +511,7 @@ def split_results(results):
             sources.append(res)
         elif isinstance(res, Delayed):
             delayeds.append(res)
-        else:
+        elif res is not None:
             targets.append(res)
     return sources, targets, delayeds
 
