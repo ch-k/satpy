@@ -530,77 +530,77 @@ composites:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M01
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M01
 
   dwd_M02:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M02
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M02
 
   dwd_M03:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M03
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M03
 
   dwd_M04:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M04
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M04
 
   dwd_M05:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M05
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M05
 
   dwd_M06:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M06
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M06
 
   dwd_M07:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M07
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M07
 
   dwd_M08:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M08
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M08
 
   dwd_M09:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M09
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M09
 
   dwd_M10:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M10
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M10
 
   dwd_M11:
     compositor: !!python/name:satpy.composites.SolarSingleChannelCompositor
     prerequisites:
     - name: M11
-      modifiers: [dwd_solar_channel_prep]
+      modifiers: [sunz_corrected, dwd_solar_channel_prep]
     standard_name: dwd_M11
 
   dwd_M12:
@@ -637,6 +637,7 @@ composites:
     - name: M16
       modifiers: [dwd_ir_channel_prep]
     standard_name: dwd_M16
+    
 
 
  
