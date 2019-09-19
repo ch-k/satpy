@@ -1405,12 +1405,12 @@ class IrChannelPreparer(CompositeBase):
             return ir
 
         proj = ir.copy()
-        dummy = proj.to_masked_array(); LOG.debug("(before IrChannelPreparer) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
+        #dummy = proj.to_masked_array(); LOG.debug("(before IrChannelPreparer) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
         
         proj = self._kelvin_to_celsius(proj)
-        dummy = proj.to_masked_array(); LOG.debug("(after _kelvin_to_celsius) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
+        #dummy = proj.to_masked_array(); LOG.debug("(after _kelvin_to_celsius) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
         proj = self._scale(proj, 40, -87.5)
-        dummy = proj.to_masked_array(); LOG.debug("(after _scale(proj, 40, -87.5)) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
+        #dummy = proj.to_masked_array(); LOG.debug("(after _scale(proj, 40, -87.5)) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
          
         #proj = sunzen_corr_cos(proj, coszen)
         #vis.mask[coszen < 0] = True
