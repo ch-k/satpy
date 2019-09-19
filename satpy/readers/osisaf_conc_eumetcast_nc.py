@@ -136,8 +136,8 @@ class OSISAF_CONC_EUMETCAST_NC(NetCDF4FileHandler):
 
     @property
     def start_time(self):
-        # return self.filename_info['start_time']
-        return self._parse_datetime(self['/attr/start_date'])
+        return self.filename_info['start_time']
+        # return self._parse_datetime(self['/attr/start_date'])
 
     @property
     def end_time(self):
