@@ -1393,3 +1393,106 @@ class SandwichCompositor(GenericCompositor):
         rgb_img = enhance2dataset(projectables[1])
         rgb_img *= luminance
         return super(SandwichCompositor, self).__call__(rgb_img, *args, **kwargs)
+
+
+class IrChannelPreparer(CompositeBase):
+
+    def __call__(self, projectables, **info):
+        ir = projectables[0]
+
+        if "dwd_ir_channel_prepared" in ir.attrs:
+            LOG.debug("DWD ir channel preparation already applied")
+            return ir
+
+        proj = ir.copy()
+        dummy = proj.to_masked_array(); LOG.debug("(before IrChannelPreparer) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
+        
+        proj = self._kelvin_to_celsius(proj)
+        dummy = proj.to_masked_array(); LOG.debug("(after _kelvin_to_celsius) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
+        proj = self._scale(proj, 40, -87.5)
+        dummy = proj.to_masked_array(); LOG.debug("(after _scale(proj, 40, -87.5)) min/mean/max: {}/{}/{}".format(dummy.min(), dummy.mean(), dummy.max()))
+         
+        #proj = sunzen_corr_cos(proj, coszen)
+        #vis.mask[coszen < 0] = True
+        self.apply_modifier_info(ir, proj)
+        proj.attrs['area'] = ir.attrs['area']
+        proj.attrs['start_time'] = ir.attrs['start_time']
+        return proj
+    
+    def _kelvin_to_celsius(self, chn):
+        """Apply Kelvin to Celsius conversion on infrared channels.
+        """
+        if chn.attrs['units'] in ['K', 'degree Kelvin', 'KELVIN']:
+            chn -= 273.15
+            chn.attrs['units'] = 'C'
+        return chn
+            
+    def _scale(self, chn, color_min, color_max):
+        chn = ((chn - color_min) * 1.0 / (color_max - color_min))
+        return chn
+
+from satpy.dataset import (Dataset, combine_metadata)
+
+class IRSingleChannelCompositor(CompositeBase):
+
+    def __call__(self, projectables, nonprojectables=None, **info):
+        if len(projectables) != 1:
+            raise ValueError("Expected 1 datasets, got %d" %
+                             (len(projectables), ))
+        the_data = projectables[0].copy()
+        info = combine_metadata(*projectables)
+         # FIXME: should this be done here ?
+        info["wavelength"] = None
+        info["resolution"] = None
+        info["calibration"] = None
+        info["modifiers"] = None
+        
+        info['name'] = self.attrs['name']
+        info["mode"] = "L"
+        return xr.DataArray(data=the_data.data, attrs=info,
+                            dims=the_data.dims, coords=the_data.coords)
+
+
+
+class SolarChannelPreparer(CompositeBase):
+
+    def __call__(self, projectables, **info):
+        solar = projectables[0]
+        if "dwd_solar_channel_prepared" in solar.attrs:
+            LOG.debug("DWD solar channel preparation already applied")
+            return solar
+
+        proj = solar.copy()
+        
+        proj = self._scale(proj, 0, 125)
+         
+        #proj = sunzen_corr_cos(proj, coszen)
+        #vis.mask[coszen < 0] = True
+        self.apply_modifier_info(solar, proj)
+        proj.attrs['area'] = solar.attrs['area']
+        proj.attrs['start_time'] = solar.attrs['start_time']
+        return proj
+            
+    def _scale(self, chn, color_min, color_max):
+        chn = ((chn - color_min) * 1.0 / (color_max - color_min))
+        return chn
+
+class SolarSingleChannelCompositor(CompositeBase):
+
+    def __call__(self, projectables, nonprojectables=None, **info):
+        if len(projectables) != 1:
+            raise ValueError("Expected 1 datasets, got %d" %
+                             (len(projectables), ))
+        the_data = projectables[0].copy()
+        info = combine_metadata(*projectables)
+         # FIXME: should this be done here ?
+        info["wavelength"] = None
+        info["resolution"] = None
+        info["calibration"] = None
+        info["modifiers"] = None
+        
+        info['name'] = self.attrs['name']
+        info["mode"] = "L"
+        return xr.DataArray(data=the_data.data, attrs=info,
+                            dims=the_data.dims, coords=the_data.coords)
+        #return Dataset(data=the_data, **info)
